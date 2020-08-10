@@ -18,8 +18,10 @@ class CreateAdminTable extends Migration
             $table->string('first_name');
             $table->string('last_name')->nullable();
             $table->text('image')->nullable();
-            $table->string('email')->unique();
+            $table->string('username')->unique();
+            $table->string('email')->nullable();
             $table->string('user_type', 80)->default('admin');
+            $table->text('user_roles')->nullable();
             $table->string('password');
             $table->boolean('is_active')->default('1');
             $table->bigInteger('added_by_id')->nullable();

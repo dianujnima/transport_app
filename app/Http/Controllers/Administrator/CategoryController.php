@@ -21,7 +21,7 @@ class CategoryController extends AdminController {
     public function edit(Request $request) {
         $data = array(
             'title' => 'Edit Staff Member',
-            'categories' => Category::withCount('childs')->latest()->get(),
+            'categories' => Category::latest()->get(),
             'category' => Category::hashidFind($request->id)
         );
         return view('admin.categories.all_categories')->with($data);

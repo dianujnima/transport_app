@@ -12,6 +12,11 @@ class AdminLoginController extends Controller
 
     protected $redirectTo = '/web_admin/login';
 
+    public function username()
+    {
+        return 'username';
+    }
+
     public function __construct()
     {
         $this->middleware('guest:admin', ['except' => ['logout']]);

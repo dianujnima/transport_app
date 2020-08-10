@@ -132,6 +132,13 @@
                                     <span> Categories </span>
                                 </a>
                             </li>
+
+                            <li>
+                                <a href="{{ route('admin.cities') }}">
+                                    <i class="fe-users"></i>
+                                    <span> Cities </span>
+                                </a>
+                            </li>
                             
                             <li>
                                 <a href="{{ route('admin.users') }}">
@@ -140,12 +147,6 @@
                                 </a>
                             </li>
 
-                            <li>
-                                <a href="{{ route('admin.tickets') }}">
-                                    <i class="fe-help-circle"></i>
-                                    <span> Support Tickets </span>
-                                </a>
-                            </li>
                             @if($admin->is_admin)
                             <li>
                                 <a href="{{ route('admin.staffs') }}">

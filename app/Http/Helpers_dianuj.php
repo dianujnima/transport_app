@@ -61,16 +61,10 @@ if (!function_exists('dummy_image')) {
     function dummy_image($type = null)
     {
         switch ($type) {
-            case 'property':
-                return asset('frontend_assets/images/property_dummy.jpg');
             case 'user':
                 return asset('admin_assets/images/users/user_img.png');
-            case 'document':
-                return asset('frontend_assets/images/document_upload.png');
-            case 'cover':
-                return asset('frontend_assets/images/cover.png');
             default:
-                return asset('frontend_assets/images/property_dummy.jpg');
+                return asset('admin_assets/images/404.png');
         }
     }
 }
@@ -107,16 +101,19 @@ if (!function_exists('hashids_decode')) {
     }
 }
 
-if (!function_exists('ticket_priority')) {
+if (!function_exists('get_provinces')) {
 
-    function ticket_priority($ind)
+    function get_provinces()
     {
-        $arr = array(
-            'low' => 'badge-secondary',
-            'medium' => 'badge-warning',
-            'high' => 'badge-danger',
-        );
-        return $arr[$ind] ?? 'danger';
+        return [
+            'Azad Kashmir',
+            'Balochistan',
+            'FATA',
+            'Gilgit-Baltistan',
+            'Khyber Pakhtunkhwa',
+            'Punjab',
+            'Sindh'
+        ];
     }
 }
 

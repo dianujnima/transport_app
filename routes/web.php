@@ -53,6 +53,12 @@ Route::prefix('web_admin')->namespace('Administrator')->middleware(['auth:admin'
     Route::post('/categories/save', 'CategoryController@save')->name('admin.categories.save');
     Route::get('/categories/update-status/{id}', 'CategoryController@updateStatus')->name('admin.categories.update_status');
     Route::get('/categories/delete/{id}', 'CategoryController@delete')->name('admin.categories.delete');
+
+    //Cities routes
+    Route::get('/cities/', 'CityController@index')->name('admin.cities');
+    Route::get('/cities/edit/{id}', 'CityController@edit')->name('admin.cities.edit');
+    Route::post('/cities/save', 'CityController@save')->name('admin.cities.save');
+    Route::get('/cities/delete/{id}', 'CityController@delete')->name('admin.cities.delete');
 });
 
 

@@ -15,13 +15,12 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('city_id')->default(1);
-            $table->bigInteger('salon_id')->nullable();
             $table->string('first_name');
             $table->string('last_name')->nullable();
             $table->text('image')->nullable();
-            $table->string('email')->unique();
-            $table->enum('user_type', ['user','salon_admin', 'salon_user', 'freelancer'])->default('user');
+            $table->string('username')->unique();
+            $table->string('email')->nullable();
+            $table->enum('signup_type', ['facebook', 'google', 'web', 'api'])->default('api');
             $table->string('password');
             $table->boolean('is_active')->default('1');
             $table->string('phone_no', 40)->nullable();
@@ -29,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('city', 80)->nullable();
             $table->string('state', 80)->nullable();
             $table->string('zipcode', 80)->nullable();
+            $table->string('country', 80)->default('pakistan');
             $table->rememberToken();
             $table->dateTime('deleted_at')->nullable();
             $table->timestamps();

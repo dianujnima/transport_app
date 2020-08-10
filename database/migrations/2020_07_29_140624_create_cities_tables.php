@@ -17,10 +17,7 @@ class CreateCitiesTables extends Migration
             $table->id();
             $table->string('name', 100);
             $table->string('slug', 100);
-            $table->string('image')->nullable();
-            $table->decimal('latitude', 10, 8)->nullable();
-            $table->decimal('longitude', 11, 8)->nullable();
-            $table->double('radius')->nullable();
+            $table->string('province', 100)->nullable();
             $table->timestamps();
         });
     }

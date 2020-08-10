@@ -39,15 +39,6 @@
                         <label for="name">Category Name<span class="text-danger">*</span></label>
                         <input type="text" name="name" parsley-trigger="change" data-parsley-required placeholder="Enter Category name" class="form-control" id="name" value="{{ $category->name ?? '' }}">
                     </div>
-                    <div class="form-group mb-3 col-md-5">
-                        <label for="parent_id">Parent</label>
-                        <select name="parent_id" data-toggle="select2" class="form-control" id="parent_id">
-                            <option value="">Select Parent Or Leave Empty for parent category</option>
-                            @foreach ($categories as $v)
-                                <option @if(isset($category->parent_id) && $category->parent_id == $v->id) selected @endif value="{{$v->hashid}}">{{$v->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
                     
                     <div class="form-group mb-3 col-md-2">
                         @if(isset($category))
@@ -88,7 +79,7 @@
                         <td>
                             <p class="m-0 text-center">{{ $k + 1 }}</p>
                         </td>
-                        <td>{{ $category->image }}</td>
+                        <td><img src="{{ check_file($category->image, 'categories') }}" width="60" alt="{{$category->name}}"/></td>
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->slug }}</td>
                         <td>
