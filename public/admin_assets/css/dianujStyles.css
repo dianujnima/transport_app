@@ -1,0 +1,107 @@
+.receipt .card-box p {
+  border-bottom: 1px solid #e4e4e4;
+  line-height: 35px;
+}
+.no-event {
+  pointer-events: none;
+}
+.fit-image {
+  object-fit: cover;
+}
+.valign {
+  vertical-align: middle !important;
+}
+.custom_filters .card-widgets > a:not(.collapsed) i:before {
+  content: "\F374";
+}
+.invoice .logo {
+  line-height: 1;
+}
+.left-side-menu-dark .navbar-custom,
+.page-item.active .page-link {
+  background-color: #2bb53e;
+}
+.page-item.active .page-link {
+  border-color: #2bb53e;
+}
+.btn-primary {
+  border-color: #2bb53e;
+  background-color: #2bb53e;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:not(:disabled):not(:disabled):active {
+  background-color: #218c30;
+  border-color: #218c30;
+}
+a {
+  color: #2bb53e;
+}
+a:hover {
+  color: #218c30;
+}
+body.authentication-bg {
+  background-color: #2bb53e;
+}
+body.authentication-bg a {
+  color: #fff;
+}
+body.authentication-bg footer {
+  color: #fff;
+}
+.dianuj_custom_table .dataTables_filter,
+.dianuj_custom_table .dt-buttons,
+.dianuj_custom_table .dataTables_length,
+.dianuj_custom_table .dataTables_info,
+.dianuj_custom_table .dataTables_paginate {
+  display: none !important;
+}
+.admin_amenities .order_list {
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.admin_amenities .order_list li {
+  padding-left: 30px;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 10px 10px 10px 40px;
+  margin-bottom: -1px;
+}
+.admin_amenities .order_list li:first-child {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+.admin_amenities .order_list li:last-child {
+  margin-bottom: 0;
+  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+.admin_amenities .order_list li a {
+  font-size: 14px;
+  font-family: Poppins, sans-serif;
+  color: #6c757d;
+  line-height: 1.67;
+}
+.admin_amenities .order_list li a span {
+  color: #39b54a;
+  left: 15px;
+  position: absolute;
+}
+.admin_amenities .order_list li a span:before {
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+.admin_amenities .order_list li a span.flaticon-tick:before {
+  content: "\f00c";
+}
+.admin_amenities .order_list li a span.flaticon-close:before {
+  content: "\f00d";
+}

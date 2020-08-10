@@ -1,0 +1,130 @@
+@primary_color: #2bb53e;
+
+.receipt{
+    & .card-box p {
+        border-bottom: 1px solid #e4e4e4;
+        line-height: 35px;
+    }
+}
+
+.no-event{
+    pointer-events: none;
+}
+
+.fit-image{
+    object-fit: cover;
+}
+
+.valign{
+    vertical-align: middle !important;
+}
+
+.custom_filters .card-widgets>a:not(.collapsed) i:before {
+    content: "\F374";
+}
+
+.invoice{
+    & .logo{
+        line-height: 1;
+    }
+}
+
+.left-side-menu-dark .navbar-custom, 
+.page-item.active .page-link{
+    background-color: @primary_color;
+}
+
+.page-item.active .page-link{
+    border-color: @primary_color;
+}
+
+.btn-primary {
+    border-color: @primary_color;
+    background-color: @primary_color;
+    &:hover, &:focus, &:not(:disabled):not(:disabled):active{
+        background-color: darken(@primary_color, 10%);
+        border-color: darken(@primary_color, 10%);
+    }
+}
+
+a{
+    color: @primary_color;
+    &:hover{
+        color: darken(@primary_color, 10%);
+    }
+}
+
+body.authentication-bg{
+    background-color: @primary_color;
+    a{
+        color:#fff;
+    }
+    & footer{
+        color: #fff;
+    }
+}
+
+.dianuj_custom_table{
+    & .dataTables_filter,
+    & .dt-buttons,
+    & .dataTables_length,
+    & .dataTables_info,
+    & .dataTables_paginate{
+        display:none !important;
+    }
+}
+
+.admin_amenities{
+    & .order_list{
+        width: 100%;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        & li{
+            padding-left: 30px;
+            position: relative;
+            border: 1px solid rgba(0,0,0,.125);
+            padding: 10px 10px 10px 40px;
+            margin-bottom: -1px;
+            &:first-child{
+                border-top-left-radius: .25rem;
+                border-top-right-radius: .25rem;
+            }
+
+            &:last-child{
+                margin-bottom: 0;
+                border-bottom-right-radius: .25rem;
+                border-bottom-left-radius: .25rem;
+            }
+            & a{
+                font-size: 14px;
+                font-family: Poppins,sans-serif;
+                color: #6c757d;
+                line-height: 1.67;
+                & span{
+                    color: #39b54a;
+                    left: 15px;
+                    position: absolute;
+                    &:before{
+                        -webkit-font-smoothing: antialiased;
+                        display: inline-block;
+                        font-style: normal;
+                        font-variant: normal;
+                        text-rendering: auto;
+                        line-height: 1;
+                        font-family: 'Font Awesome 5 Free';
+                        font-weight: 900;
+                    }
+
+                    &.flaticon-tick:before{
+                        content: "\f00c";
+                    }
+
+                    &.flaticon-close:before{
+                        content: "\f00d";
+                    }
+                }
+            }
+        }
+    }
+}
