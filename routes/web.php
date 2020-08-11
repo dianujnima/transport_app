@@ -59,6 +59,15 @@ Route::prefix('web_admin')->namespace('Administrator')->middleware(['auth:admin'
     Route::get('/cities/edit/{id}', 'CityController@edit')->name('admin.cities.edit');
     Route::post('/cities/save', 'CityController@save')->name('admin.cities.save');
     Route::get('/cities/delete/{id}', 'CityController@delete')->name('admin.cities.delete');
+
+    //Providers routes
+    Route::get('/providers/', 'ProviderController@index')->name('admin.providers');
+    Route::get('/providers/add', 'ProviderController@add')->name('admin.providers.add');
+    Route::get('/providers/edit/{provider_id}', 'ProviderController@edit')->name('admin.providers.edit');
+    Route::post('/providers/save', 'ProviderController@save')->name('admin.providers.save');
+    Route::post('/providers/update_password', 'ProviderController@update_password')->name('admin.providers.update_password');
+    Route::get('/providers/update-status/{provider_id}', 'ProviderController@updateStatus')->name('admin.providers.update_status');
+    Route::get('/providers/delete/{provider_id}', 'ProviderController@delete')->name('admin.providers.delete');
 });
 
 

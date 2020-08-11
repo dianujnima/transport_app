@@ -30,18 +30,18 @@ class AdminLoginController extends Controller
     public function login(\Illuminate\Http\Request $request)
     {
         $a = $this->validate($request, [
-            'email' => 'required|email',
+            'username' => 'required',
             'password' => 'required'
         ]);
 
-        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+        if (Auth::guard('admin')->attempt(['username' => $request->username, 'password' => $request->password], $request->remember)) {
             return redirect()->intended(route('admin.home'));
         }
 
         return redirect()
             ->back()
-            ->withInput($request->only($request->only('email', 'remember')))
-            ->withErrors(['email' => 'These credentials do not match our records.']);
+            ->withInput($request->only($request->only('username', 'remember')))
+            ->withErrors(['username' => 'These credentials do not match our records.']);
     }
 
     public function logout()

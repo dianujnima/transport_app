@@ -139,6 +139,13 @@
                                     <span> Cities </span>
                                 </a>
                             </li>
+
+                            <li>
+                                <a href="{{ route('admin.providers') }}">
+                                    <i class="fe-users"></i>
+                                    <span> Providers </span>
+                                </a>
+                            </li>
                             
                             <li>
                                 <a href="{{ route('admin.users') }}">

@@ -53,7 +53,7 @@
     <div class="col-lg-12">
         <div class="card-box">
             <div class="d-flex align-items-center justify-content-between">
-                <h4 class="header-title">cities</h4>
+                <h4 class="header-title">Cities</h4>
             </div>
             <p class="sub-header">Following is the list of all the cities.</p>
             <table class="table dt_table table-bordered w-100 nowrap" id="laravel_datatable">

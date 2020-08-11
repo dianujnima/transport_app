@@ -63,6 +63,8 @@ if (!function_exists('dummy_image')) {
         switch ($type) {
             case 'user':
                 return asset('admin_assets/images/users/user_img.png');
+            case 'file':
+                    return asset('admin_assets/images/file_icon.png');
             default:
                 return asset('admin_assets/images/404.png');
         }

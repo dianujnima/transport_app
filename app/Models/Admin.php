@@ -39,7 +39,7 @@ class Admin extends Authenticatable
 
     public function getIsAdminAttribute()
     {
-        return $this->user_role == 'admin';
+        return $this->user_type === 'admin';
     }
 
     public function sendPasswordResetNotification($token)

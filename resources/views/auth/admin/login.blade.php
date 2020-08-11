@@ -6,9 +6,9 @@
 <form method="POST" action="{{ route('admin.login') }}" class="custom_form" novalidate>
     @csrf
     <div class="form-group mb-3">
-        <label for="emailaddress">{{ __('E-Mail Address') }}</label>
-        <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autofocus placeholder="Enter your email">
-        @error('email')
+        <label for="username">Username</label>
+        <input id="username" name="username" value="{{ old('username') }}" required class="form-control @error('username') is-invalid @enderror" autofocus placeholder="Enter your username">
+        @error('username')
         <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
         </span>
