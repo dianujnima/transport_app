@@ -68,6 +68,9 @@ Route::prefix('web_admin')->namespace('Administrator')->middleware(['auth:admin'
     Route::post('/providers/update_password', 'ProviderController@update_password')->name('admin.providers.update_password');
     Route::get('/providers/update-status/{provider_id}', 'ProviderController@updateStatus')->name('admin.providers.update_status');
     Route::get('/providers/delete/{provider_id}', 'ProviderController@delete')->name('admin.providers.delete');
+
+
+    Route::get('/tickets/view/{ticket_no}', 'ProviderController@delete')->name('admin.tickets.view');
 });
 
 

@@ -14,15 +14,12 @@ class ApiController extends Controller
     public function home(){
         $user = $this->current_user();
         $data = array(
-            'total_searches' => \App\SavedSearch::whereUserId($user->id)->count(),
-            'total_viewed' => \App\PropertyView::whereUserId($user->id)->count(),
-            'total_bookmarked' => \App\PropertyBookmark::whereUserId($user->id)->count(),
+            'categories' => \App\Models\Category::whereIsActive(1)->get(),
+            'operators' => \App\Models\Provider::with('user')->has('user')->latest()->get(),
+            'timings' => $this->timings(),
+            'bus_types' => [ 'standard' => 'Standard', 'luxury' => 'Luxury', 'super_luxury' => 'Super Luxury'],
             'notifications' => $user->unreadNotifications()->limit(10)->get(),
         );
-
-        if (!$user->is_wholesaler) {
-            $data['total_properties'] = \App\Property::whereUserId($user->id)->count();
-        }
 
         return api_response(true, $data);
     }
@@ -32,7 +29,6 @@ class ApiController extends Controller
         $data = array(
             'notifications' => $user->notifications()->get(),
         );
-
         return api_response(true, $data);
     }
 
@@ -46,6 +42,18 @@ class ApiController extends Controller
         $user = $this->current_user();
         $user->notifications()->delete();
         return api_response(true, null, 'All Notifications removed successfully');
+    }
+
+    private function timings(){
+        $timings = array(
+            'any' => ['name' => 'Any Timing', 'from' => '00:00', 'to' => '23:59'],
+            'early_morning' => ['name' => 'Early Morning (12:00 AM - 05:59 AM)', 'from' => '00:00', 'to' => '05:59'],
+            'morning' => ['name' => 'Morning (06:00 AM - 11:59 AM)', 'from' => '06:00', 'to' => '11:59'],
+            'afternoon' => ['name' => 'Afternoon (12:00 PM - 04:59 PM)', 'from' => '12:00', 'to' => '16:59'],
+            'evening' => ['name' => 'Evening (05:00 PM - 07:59 PM)', 'from' => '17:00', 'to' => '18:59'],
+            'night' => ['name' => 'Night (09:00 PM - 11:59 PM)', 'from' => '19:00', 'to' => '23:59'],
+        );
+        return $timings;
     }
     
 }

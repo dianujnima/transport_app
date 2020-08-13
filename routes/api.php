@@ -26,12 +26,13 @@ Route::prefix('auth')->namespace('Api')->middleware(['api', 'jwt.verify'])->grou
 });
 
 Route::namespace('Api')->middleware(['api', 'jwt.verify'])->group(function () {
-    //support tickets routes
-    Route::get('support-tickets', 'ApiSupportTicketController@index');
-    Route::get('support-tickets/view', 'ApiSupportTicketController@view');
-    Route::post('support-tickets/add', 'ApiSupportTicketController@save');
-    Route::post('support-tickets/send-message', 'ApiSupportTicketController@send_message');
-    Route::post('support-tickets/delete-msg', 'ApiSupportTicketController@deleteMsg');
+    //schedule routes
+    Route::get('schedule/search', 'ApiTicketsController@search');
+
+    //tickets routes
+    Route::get('tickets', 'ApiTicketsController@all_tickets');
+    Route::post('tickets/book', 'ApiTicketsController@book_ticket');
+    Route::post('tickets/add_transaction', 'ApiTicketsController@update_ticket');
 
     //home & notifications
     Route::get('home', 'ApiController@home');

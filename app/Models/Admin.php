@@ -41,7 +41,7 @@ class Admin extends Authenticatable
     {
         return $this->user_type === 'admin';
     }
-
+    
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new AdminResetPasswordNotification($token));

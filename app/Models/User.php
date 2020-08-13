@@ -14,7 +14,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected $guard = 'user';
     
-    protected $appends = ['image_url', 'cover_image_url'];
+    protected $appends = ['image_url', 'hashid'];
 
 
     /**
@@ -23,7 +23,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'email', 'password', 'first_name', 'last_name', 'image', 'user_role', 'phone_no', 'platform', 'device_token'
+        'username', 'email', 'password', 'first_name', 'last_name', 'image', 'phone_no', 'signup_type'
     ];
 
     /**
@@ -48,23 +48,12 @@ class User extends Authenticatable implements JWTSubject
         return ucwords($this->first_name . ' ' . $this->last_name);
     }
 
-    public function getUserTypeAttribute()
-    {
-        return ucwords(str_replace('_', ' ', $this->user_role));
-    }
-
     public function getFullAddressAttribute()
     {
-        return $this->address. '<br>'.
-        $this->city.', '.$this->state.' '.$this->zipcode.'<br>'.
-        '<abbr title="Phone">P:</abbr> '.$this->phone_no;
+        return $this->address. ','.$this->city.', '.$this->state.' '.$this->zipcode.', '.$this->country;
     }
 
     public function getImageUrlAttribute(){
         return $this->image ? check_file($this->image, 'user') : null;
-    }
-
-    public function getCoverImageUrlAttribute(){
-        return $this->cover_image ? check_file($this->cover_image, 'cover') : null;
     }
 }

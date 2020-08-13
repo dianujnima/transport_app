@@ -44,9 +44,9 @@ if (!function_exists('currency_symbol')) {
     }
 }
 
-if (!function_exists("newCount")) {
+if (!function_exists("safeCount")) {
 
-    function newCount($array)
+    function safeCount($array)
     {
         if (is_array($array) || is_object($array)) {
             return count($array);

@@ -20,9 +20,9 @@ class CreateProviderSchedulesTable extends Migration
             $table->string('route_from');
             $table->string('route_to');
             $table->date('date');
-            $table->dateTime('arrival_time');
-            $table->dateTime('destination_time');
-            $table->double('ticket_cost');
+            $table->time('arrival_time')->nullable();
+            $table->time('destination_time')->nullable();
+            $table->double('ticket_cost')->default(0);
             $table->text('image')->nullable();
             $table->timestamps();
         });
