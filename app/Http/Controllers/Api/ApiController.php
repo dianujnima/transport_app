@@ -14,13 +14,13 @@ class ApiController extends Controller
     public function home(){
         $user = $this->current_user();
         $data = array(
+            'cities' => \App\Models\City::orderBy('name', 'desc')->get(['id', 'name', 'province']),
             'categories' => \App\Models\Category::whereIsActive(1)->get(),
             'operators' => \App\Models\Provider::with('user')->has('user')->latest()->get(),
             'timings' => $this->timings(),
-            'bus_types' => [ 'standard' => 'Standard', 'luxury' => 'Luxury', 'super_luxury' => 'Super Luxury'],
+            'bus_types' => ['standard' => 'Standard', 'luxury' => 'Luxury', 'super_luxury' => 'Super Luxury'],
             'notifications' => $user->unreadNotifications()->limit(10)->get(),
         );
-
         return api_response(true, $data);
     }
 
