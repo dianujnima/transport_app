@@ -6,7 +6,7 @@ class Provider extends MainModel
 {
     protected $table = 'providers';
 
-    protected $appends = ['image_url'];
+    protected $appends = ['image_url', 'hashid'];
 
     protected $casts = [
         'contact_person_info' => 'object',
