@@ -29,6 +29,14 @@ class ApiTicketsController extends ApiController {
             $tickets->whereType($request->type);
         }
 
+        if(!empty($request->category)){
+            $tickets->whereCategoryId($request->category);
+        }
+
+        if(!empty($request->operators) && safeCount($request->operators) > 0){
+            $tickets->whereIn('operator_id',$request->operators);
+        }
+
         if(!empty($request->timing_from) && !empty($request->timing_to)){
             $tickets->whereBetween('arrival_time', [$request->timing_from, $request->timing_to]);
         }
