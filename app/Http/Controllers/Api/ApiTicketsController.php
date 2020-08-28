@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class ApiTicketsController extends ApiController {
 
     public function search(Request $request) {
-        $tickets = ProviderSchedule::with('category', 'availableSeats')->orderBy('date', 'desc');
+        $tickets = ProviderSchedule::with('category', 'seats')->orderBy('date', 'desc');
 
         if(!empty($request->from)){
             $tickets->whereRouteFrom($request->from);
