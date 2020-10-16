@@ -14,16 +14,18 @@ class NewTicketBooked extends Notification
 {
     use Queueable;
     private $ticket;
-    private $schdule;
+    private $schedule;
+    private $seats;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Ticket $ticket, ProviderSchedule $schdule)
+    public function __construct(Ticket $ticket, ProviderSchedule $schedule, $seats = [])
     {
         $this->ticket = $ticket;
-        $this->schdule = $schdule;
+        $this->schedule = $schedule;
+        $this->seats = $seats;
     }
 
     /**
@@ -45,14 +47,17 @@ class NewTicketBooked extends Notification
      */
     public function toMail($notifiable)
     {
-        $all_seats = implode(',', $this->ticket->seat_nos);
+        $all_seats = '';
+        foreach($this->seats as $v){
+            $all_seats .= $v['total_seats'].' '.ucwords($v['seat_type']).' Seats'. ', ';
+        }
         return (new MailMessage)
                     ->line(new HtmlString('<h4>New Ticket has been booked!</h4>'))
                     ->line(new HtmlString('<p>Following are the details of ticket!</p>'))
                     ->line(new HtmlString('<p>Ticket#: <strong>'.$this->ticket->ticket_no.'</strong></p>'))
                     ->line(new HtmlString('<p>Seat(s): <strong>'.$all_seats.'</strong></p>'))
-                    ->line(new HtmlString('<p>From: <strong>'.$this->schdule->route_from.'</strong></p>'))
-                    ->line(new HtmlString('<p>To: <strong>'.$this->schdule->route_to.'</strong></p>'))
+                    ->line(new HtmlString('<p>From: <strong>'.$this->schedule->route_from.'</strong></p>'))
+                    ->line(new HtmlString('<p>To: <strong>'.$this->schedule->route_to.'</strong></p>'))
                     ->line(new HtmlString('<p>Booking Date: <strong>'.get_date($this->ticket->booking_date).'</strong></p>'))
                     ->line(new HtmlString('<p>Total Amount: <strong>'.get_price($this->ticket->total_amount).'</strong></p>'))
                     ->line('Thank You!');

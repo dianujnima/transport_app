@@ -32,7 +32,7 @@ if (!function_exists('get_price')) {
 
     function get_price($price)
     {
-        return '$ ' . number_format($price, 2);
+        return 'PKR ' . number_format($price, 2);
     }
 }
 

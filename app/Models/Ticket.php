@@ -6,17 +6,16 @@ class Ticket extends MainModel
 {
     protected $table = 'bookings';
 
-    protected $casts = [
-        'seat_nos' => 'array',
-        'seat_ids' => 'array',
-    ];
-
     public function provider(){
         return $this->belongsTo('App\Models\Provider');
     }
 
     public function schedule(){
         return $this->belongsTo('App\Models\ProviderSchedule', 'schedule_id');
+    }
+
+    public function seats(){
+        return $this->hasMany('App\Models\TicketSeat', 'booking_id');
     }
 
     public function user(){

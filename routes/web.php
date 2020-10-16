@@ -71,6 +71,15 @@ Route::prefix('web_admin')->namespace('Administrator')->middleware(['auth:admin'
 
 
     Route::get('/tickets/view/{ticket_no}', 'ProviderController@delete')->name('admin.tickets.view');
+
+
+    //Providers routes
+    Route::get('/schedules/', 'ScheduleController@index')->name('admin.schedules');
+    Route::get('/schedules/add', 'ScheduleController@add')->name('admin.schedules.add');
+    Route::get('/schedules/edit/{schedule_id}', 'ScheduleController@edit')->name('admin.schedules.edit');
+    Route::post('/schedules/save', 'ScheduleController@save')->name('admin.schedules.save');
+    Route::post('/schedules/save-edit', 'ScheduleController@save_edit')->name('admin.schedules.save_edit');
+    Route::get('/schedules/delete/{schedule_id}', 'ScheduleController@delete')->name('admin.schedules.delete');
 });
 
 

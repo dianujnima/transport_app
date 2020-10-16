@@ -51,4 +51,8 @@ class Admin extends Authenticatable
     {
         return $query->whereIsActive(1)->get();
     }
+
+    public function provider(){
+        return $this->hasOne('App\Models\Provider', 'user_id');
+    }
 }

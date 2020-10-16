@@ -43,7 +43,6 @@ class TransactionIdAdded extends Notification
      */
     public function toMail($notifiable)
     {
-        $all_seats = implode(',', $this->ticket->seat_nos);
         return (new MailMessage)
                     ->line(new HtmlString('<h4>Transaction ID has been added for Ticket# '.$this->ticket->ticket_no.'!</h4>'))
                     ->line(new HtmlString('<p>Following are the details of transaction!</p>'))

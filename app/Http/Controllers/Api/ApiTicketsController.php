@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\ProviderSchedule;
 use App\Models\ScheduleSeat;
 use App\Models\Ticket;
+use App\Models\TicketSeat;
 use App\Notifications\Admin\NewTicketBooked;
 use App\Notifications\Admin\TransactionIdAdded;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ use Illuminate\Http\Request;
 class ApiTicketsController extends ApiController {
 
     public function search(Request $request) {
-        $tickets = ProviderSchedule::with('category', 'seats')->orderBy('date', 'desc');
+        $tickets = ProviderSchedule::with('category', 'seats')->where('is_active', 1)->orderBy('date', 'desc');
 
         if(!empty($request->from)){
             $tickets->whereRouteFrom($request->from);
@@ -49,7 +50,7 @@ class ApiTicketsController extends ApiController {
 
     public function book_ticket(Request $request) {
         $validation = \Validator::make($request->all(), [
-            'seats' => ['required', 'array', 'max:10'],
+            'seats' => ['required', 'array', 'max:5'],
             'schedule_id' => ['required', 'string'],
         ]);
 
@@ -57,35 +58,57 @@ class ApiTicketsController extends ApiController {
             return api_response(false, null, $validation->errors()->first());
         }
 
-        $schdule = ProviderSchedule::hashidFind($request->schedule_id);
-        $scheduleSeat = ScheduleSeat::whereInHashids($request->seats);
+        $schedule = ProviderSchedule::hashidFind($request->schedule_id);
+        $scheduleSeat = ScheduleSeat::whereScheduleId($schedule->id);
+        $bookedSeats = TicketSeat::whereScheduleId($schedule->id)->get();
         $seats = $scheduleSeat->get();
         $total_amount = 0;
-        foreach($seats as $seat){
-            if($seat->status !== 'available'){
-                return api_response(false, null, 'Seat# '.$seat->seat_no.' is not available anymore!');
+
+        $newly_booked_seats = [];
+
+        foreach($request->seats as $k => $seat){
+            //getting the specific type of seats
+            $seat_type = $seats->where('seat_type', $k)->first();
+
+            //adding the already booked ticket seats with the current seats coming from api
+            $already_booked = $bookedSeats->where('seat_type', $k)->sum('total_seats') + $seat; 
+            if($already_booked > $seat_type->total_seats){
+                return api_response(false, null, ucwords($k).' type seats not available anymore!');
             }
-            $total_amount += $schdule->ticket_cost;
+            // multiplying the number of seats with the actual cost of the seat
+            $seats_costs = $seat_type->cost * $seat;
+
+            $newly_booked_seats[] = array(
+                'schedule_id' => $schedule->id,
+                'total_seats' => $seat,
+                'seat_cost' => $seat_type->cost,
+                'total_cost' => $seats_costs,
+                'seat_type' => $k
+            );
+
+            $total_amount += $seats_costs;
         }
 
         $booking_ticket = new Ticket();
         $booking_ticket->ticket_no = strtoupper(\Str::random(5)).time();
-        $booking_ticket->provider_id = $schdule->provider_id;
-        $booking_ticket->schedule_id = $schdule->id;
+        $booking_ticket->provider_id = $schedule->provider_id;
+        $booking_ticket->schedule_id = $schedule->id;
         $booking_ticket->user_id = $this->current_user()->id;
-        $booking_ticket->seat_ids = $seats->pluck('id');
-        $booking_ticket->seat_nos = $seats->pluck('seat_no');
         $booking_ticket->total_amount = $total_amount;
-        $booking_ticket->per_seat_amount = $schdule->ticket_cost;
-        $booking_ticket->booking_date = $schdule->date;
+        $booking_ticket->booking_date = $schedule->date;
         $booking_ticket->status = 'hold';
         $booking_ticket->save();
 
-        $scheduleSeat->update(['status' => 'booked']);
+        foreach($newly_booked_seats as $k => $v){
+            $newly_booked_seats[$k]['booking_id'] = $booking_ticket->id;
+        }
+        TicketSeat::insert($newly_booked_seats);
+
+        // $scheduleSeat->update(['status' => 'booked']);
 
         $admins = \App\Models\Admin::notifiables();
         foreach($admins as $admin){
-            $admin->notify(new NewTicketBooked($booking_ticket, $schdule));
+            $admin->notify(new NewTicketBooked($booking_ticket, $schedule, $newly_booked_seats));
         }
 
         $data = array('ticket_no' => $booking_ticket->ticket_no);
@@ -110,7 +133,7 @@ class ApiTicketsController extends ApiController {
 
     public function all_tickets() {
         $user = $this->current_user();
-        $tickets = Ticket::with(['schedule', 'provider', 'schedule.category'])->has('schedule')->whereUserId($user->id);
+        $tickets = Ticket::with(['schedule', 'provider', 'schedule.category', 'seats'])->has('schedule')->whereUserId($user->id);
         $data = array(
             'tickets' => $tickets->paginate(config('app.pagination.limit'))
         );

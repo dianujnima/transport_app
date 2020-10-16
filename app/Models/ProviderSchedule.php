@@ -2,12 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class ProviderSchedule extends MainModel
 {
+    use SoftDeletes;
+    
     protected $table = 'provider_schedules';
 
     public function category(){
         return $this->belongsTo('App\Models\Category');
+    }
+
+    public function provider(){
+        return $this->belongsTo('App\Models\Provider');
     }
 
     public function seats(){

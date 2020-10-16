@@ -154,6 +154,13 @@
                                 </a>
                             </li>
 
+                            <li>
+                                <a href="{{ route('admin.schedules') }}">
+                                    <i class="fe-users"></i>
+                                    <span> Provider Schedules </span>
+                                </a>
+                            </li>
+
                             @if($admin->is_admin)
                             <li>
                                 <a href="{{ route('admin.staffs') }}">
@@ -189,7 +196,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
-                                {{ date('Y') }} &copy; All rights reserved by {{ config('app.name') }}. Design &amp; Developed By <a href="https://gexton.com" target="_blank">GEXTON INC</a>.
+                                {{ date('Y') }} &copy; All rights reserved by {{ config('app.name') }}. Design &amp; Developed by US.
                             </div>
                         </div>
                     </div>

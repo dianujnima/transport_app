@@ -52,7 +52,7 @@
 
 
     <footer class="footer footer-alt">
-        {{ date('Y') }} &copy; All rights reserved by {{config('app.name')}}. Design &amp; Developed By <a href="https://gexton.com" target="_blank">GEXTON INC</a>.
+        {{ date('Y') }} &copy; All rights reserved by {{config('app.name')}}. Design &amp; Developed By US.
     </footer>
 
     <script src="{{ asset('admin_assets') }}/js/bundled.min.js"></script>
