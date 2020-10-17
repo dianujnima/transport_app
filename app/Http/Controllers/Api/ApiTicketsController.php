@@ -139,14 +139,19 @@ class ApiTicketsController extends ApiController
     {
         $user = $this->current_user();
         $tickets = Ticket::with(['schedule', 'provider', 'schedule.category', 'seats'])->has('schedule')->whereUserId($user->id);
-        if($request->ticket_no){
+        if(!empty($request->ticket_no)){
             $data = array(
                 'ticket' => $tickets->whereTicketNo($request->ticket_no)->first()
             );
             return api_response(true, $data);
         }
+        if (!empty($request->past_orders) && $request->past_orders == true) {
+            $tickets = $tickets->where('booking_date', '<', date('Y-m-d'));
+        }else{
+            $tickets = $tickets->where('booking_date', '>=', date('Y-m-d'));
+        }
         $data = array(
-            'tickets' => $tickets->paginate(config('app.pagination.limit'))
+            'tickets' => $tickets->orderBy('booking_date', 'desc')->paginate(config('app.pagination.limit'))
         );
         return api_response(true, $data);
     }
