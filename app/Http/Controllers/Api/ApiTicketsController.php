@@ -10,36 +10,38 @@ use App\Notifications\Admin\NewTicketBooked;
 use App\Notifications\Admin\TransactionIdAdded;
 use Illuminate\Http\Request;
 
-class ApiTicketsController extends ApiController {
+class ApiTicketsController extends ApiController
+{
 
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
         $tickets = ProviderSchedule::with('category', 'seats')->where('is_active', 1)->orderBy('date', 'desc');
 
-        if(!empty($request->from)){
+        if (!empty($request->from)) {
             $tickets->whereRouteFrom($request->from);
         }
-        if(!empty($request->to)){
+        if (!empty($request->to)) {
             $tickets->whereRouteTo($request->to);
         }
 
-        if(!empty($request->date)){
+        if (!empty($request->date)) {
             $tickets->where('date', $request->date);
         }
 
-        if(!empty($request->type)){
+        if (!empty($request->type)) {
             $tickets->whereType($request->type);
         }
 
-        if(!empty($request->category)){
+        if (!empty($request->category)) {
             $tickets->whereCategoryId($request->category);
         }
 
-        if(!empty($request->operators) && safeCount($request->operators) > 0){
-            $tickets->whereIn('operator_id',$request->operators);
+        if (!empty($request->timing_from) && !empty($request->timing_to)) {
+            $tickets->whereBetween('arrival_time', [$request->timing_from, $request->timing_to]);
         }
 
-        if(!empty($request->timing_from) && !empty($request->timing_to)){
-            $tickets->whereBetween('arrival_time', [$request->timing_from, $request->timing_to]);
+        if (!empty($request->providers) && safeCount($request->providers) > 0) {
+            $tickets->whereIn('provider_id', $request->providers);
         }
 
         $data = array(
@@ -48,7 +50,8 @@ class ApiTicketsController extends ApiController {
         return api_response(true, $data);
     }
 
-    public function book_ticket(Request $request) {
+    public function book_ticket(Request $request)
+    {
         $validation = \Validator::make($request->all(), [
             'seats' => ['required', 'array', 'max:5'],
             'schedule_id' => ['required', 'string'],
@@ -66,14 +69,14 @@ class ApiTicketsController extends ApiController {
 
         $newly_booked_seats = [];
 
-        foreach($request->seats as $k => $seat){
+        foreach ($request->seats as $k => $seat) {
             //getting the specific type of seats
             $seat_type = $seats->where('seat_type', $k)->first();
 
             //adding the already booked ticket seats with the current seats coming from api
-            $already_booked = $bookedSeats->where('seat_type', $k)->sum('total_seats') + $seat; 
-            if($already_booked > $seat_type->total_seats){
-                return api_response(false, null, ucwords($k).' type seats not available anymore!');
+            $already_booked = $bookedSeats->where('seat_type', $k)->sum('total_seats') + $seat;
+            if ($already_booked > $seat_type->total_seats) {
+                return api_response(false, null, ucwords($k) . ' type seats not available anymore!');
             }
             // multiplying the number of seats with the actual cost of the seat
             $seats_costs = $seat_type->cost * $seat;
@@ -90,7 +93,7 @@ class ApiTicketsController extends ApiController {
         }
 
         $booking_ticket = new Ticket();
-        $booking_ticket->ticket_no = strtoupper(\Str::random(5)).time();
+        $booking_ticket->ticket_no = strtoupper(\Str::random(5)) . time();
         $booking_ticket->provider_id = $schedule->provider_id;
         $booking_ticket->schedule_id = $schedule->id;
         $booking_ticket->user_id = $this->current_user()->id;
@@ -99,7 +102,7 @@ class ApiTicketsController extends ApiController {
         $booking_ticket->status = 'hold';
         $booking_ticket->save();
 
-        foreach($newly_booked_seats as $k => $v){
+        foreach ($newly_booked_seats as $k => $v) {
             $newly_booked_seats[$k]['booking_id'] = $booking_ticket->id;
         }
         TicketSeat::insert($newly_booked_seats);
@@ -107,16 +110,17 @@ class ApiTicketsController extends ApiController {
         // $scheduleSeat->update(['status' => 'booked']);
 
         $admins = \App\Models\Admin::notifiables();
-        foreach($admins as $admin){
+        foreach ($admins as $admin) {
             $admin->notify(new NewTicketBooked($booking_ticket, $schedule, $newly_booked_seats));
         }
 
         $data = array('ticket_no' => $booking_ticket->ticket_no);
-        
+
         return api_response(true, $data, 'Your order has been booked but its on hold please pay via easypaisa franchise within 15 minutes and enter transaction id in the field below to confirm. Otherwise you order will the automatically cancelled!');
     }
 
-    public function update_ticket(Request $request){
+    public function update_ticket(Request $request)
+    {
         $ticket = Ticket::getTicket($request->ticket_no);
         $ticket->transaction_id = $request->transaction_id;
         $ticket->transaction_data = $request->data ?? null;
@@ -124,21 +128,26 @@ class ApiTicketsController extends ApiController {
         $ticket->save();
 
         $admins = \App\Models\Admin::notifiables();
-        foreach($admins as $admin){
+        foreach ($admins as $admin) {
             $admin->notify(new TransactionIdAdded($ticket));
         }
 
         return api_response(true, null, 'Thanks for ordering with us you will get the confirmation email and notification shortly once we checked the transaction!');
     }
 
-    public function all_tickets() {
+    public function all_tickets(Request $request)
+    {
         $user = $this->current_user();
         $tickets = Ticket::with(['schedule', 'provider', 'schedule.category', 'seats'])->has('schedule')->whereUserId($user->id);
+        if($request->ticket_no){
+            $data = array(
+                'ticket' => $tickets->whereTicketNo($request->ticket_no)->first()
+            );
+            return api_response(true, $data);
+        }
         $data = array(
             'tickets' => $tickets->paginate(config('app.pagination.limit'))
         );
         return api_response(true, $data);
     }
-
 }
-
