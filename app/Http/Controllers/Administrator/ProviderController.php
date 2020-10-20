@@ -17,7 +17,7 @@ class ProviderController extends AdminController {
     public function index() {
         $data = array(
             'title' => 'All Providers',
-            'providers' => Provider::with('user')->latest()->get()
+            'providers' => Provider::with('user')->has('user')->latest()->get()
         );
         return view('admin.providers.all_providers')->with($data);
     }

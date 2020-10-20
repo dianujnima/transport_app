@@ -56,4 +56,8 @@ class User extends Authenticatable implements JWTSubject
     public function getImageUrlAttribute(){
         return $this->image ? check_file($this->image, 'user') : null;
     }
+
+    public function getDeviceTokensAttribute(){
+        return $this->hasMany('App\Models\UserLogin')->whereRaw('LENGTH(device_token) > 15')->whereNull('logout_at')->get()->pluck('device_token');
+    }
 }

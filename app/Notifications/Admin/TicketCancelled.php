@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Admin;
 
+use App\Channels\FCMChannel;
 use App\Models\ProviderSchedule;
 use App\Models\Ticket;
 use Illuminate\Bus\Queueable;
@@ -10,7 +11,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 
-class TransactionIdAdded extends Notification
+class TicketCancelled extends Notification
 {
     use Queueable;
     private $ticket;
@@ -32,7 +33,7 @@ class TransactionIdAdded extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail', 'database', FCMChannel::class];
     }
 
     /**
@@ -44,10 +45,10 @@ class TransactionIdAdded extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line(new HtmlString('<h4>Transaction ID has been added for Ticket# '.$this->ticket->ticket_no.'!</h4>'))
-                    ->line(new HtmlString('<p>Following are the details of transaction!</p>'))
-                    ->line(new HtmlString('<p>Ticket#: <strong>'.$this->ticket->ticket_no.'</strong></p>'))
-                    ->line(new HtmlString('<p>Transaction ID: <strong>'.$this->ticket->transaction_id.'</strong></p>'))
+                    ->line(new HtmlString('<h4>Your Ticket# '.$this->ticket->ticket_no.' has been cancelled!</h4>'))
+                    ->line(new HtmlString('<p>Following is the reason for cancellation by provider!</p>'))
+                    ->line(new HtmlString('<p>Cancelled At: <strong>'.get_fulltime($this->ticket->cancelled_at).'</strong></p>'))
+                    ->line(new HtmlString('<p>Reason#: <strong>'.$this->ticket->cancelled_reason.'</strong></p>'))
                     ->line(' ')
                     ->line('Thank You!');
     }
@@ -63,10 +64,18 @@ class TransactionIdAdded extends Notification
         return [
             'link' =>  '/tickets/?ticket_no='.$this->ticket->ticket_no,
             'route' => 'admin.tickets',
-            'type' => 'transaction_added',
-            'icon' => 'dollar',
-            'color' => '#d62929',
-            'msg' => 'Transaction Added For Ticket #'.$this->ticket->ticket_no
+            'type' => 'transaction_cancelled',
+            'icon' => 'times',
+            'color' => '#cc0000',
+            'msg' => 'Ticket #'.$this->ticket->ticket_no.' Cancelled'
+        ];
+    }
+
+    public function toFCM($notifiable)
+    {
+        return [
+            "title" => 'Ticket # '.$this->ticket->ticket_no.' has been Cancelled',
+            "msg" => 'Your ticket has been cancelled by provider and the reason given is: '.$this->ticket->cancelled_reason.'.'
         ];
     }
 }

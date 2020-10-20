@@ -125,7 +125,7 @@
                                     <span> Dashboards </span>
                                 </a>
                             </li>
-
+                            @if($admin->is_admin)
                             <li>
                                 <a href="{{ route('admin.categories') }}">
                                     <i class="fe-users"></i>
@@ -153,11 +153,19 @@
                                     <span> Frontend Users </span>
                                 </a>
                             </li>
-
+                            @endif
+                            
                             <li>
                                 <a href="{{ route('admin.schedules') }}">
                                     <i class="fe-users"></i>
                                     <span> Provider Schedules </span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ route('admin.tickets') }}">
+                                    <i class="fe-users"></i>
+                                    <span> Tickets </span>
                                 </a>
                             </li>
 

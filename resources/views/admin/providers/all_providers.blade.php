@@ -43,7 +43,7 @@
                         </td>
                         <td><img src="{{ check_file($provider->image) }}" width="50" alt="{{ $provider->name }}"/></td>
                         <td>{{ $provider->name }}</td>
-                        <td><small>{{ $provider->user->username }}</small></td>
+                        <td><small>{{ $provider->user->full_name }}</small></td>
                         <td><small>{{$provider->address}}</small></td>
                         <td>
                             <p class="m-0"><small>{{ get_date($provider->created_on) }}</small></p>

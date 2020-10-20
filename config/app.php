@@ -80,6 +80,8 @@ return [
         'limit' => env('PAGINATION_LIMIT', 25),
     ),
 
+    'fcm_api_key' => env('FCM_APIKEY', null),
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

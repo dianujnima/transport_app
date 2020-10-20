@@ -72,8 +72,8 @@ class NewTicketBooked extends Notification
     public function toArray($notifiable)
     {
         return [
-            'link' =>  '/tickets/view/'.$this->ticket->ticket_no,
-            'route' => 'admin.tickets.view',
+            'link' =>  '/tickets/?ticket_no='.$this->ticket->ticket_no,
+            'route' => 'admin.tickets',
             'type' => 'ticket_added',
             'icon' => 'ticket',
             'color' => '#5fba26',

@@ -65,7 +65,7 @@
                 <thead>
                     <tr>
                         <th width="20">S.No</th>
-                        <th>Image</th>
+                        <th>Icon</th>
                         <th>Name</th>
                         <th>Slug</th>
                         <th>Added On</th>
@@ -79,7 +79,7 @@
                         <td>
                             <p class="m-0 text-center">{{ $k + 1 }}</p>
                         </td>
-                        <td><img src="{{ check_file($category->image, 'categories') }}" width="60" alt="{{$category->name}}"/></td>
+                        <td class="text-center"><i class="{{$category->icon}} text-dark fa-2x"></i></td>
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->slug }}</td>
                         <td>

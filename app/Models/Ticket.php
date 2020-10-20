@@ -5,6 +5,7 @@ namespace App\Models;
 class Ticket extends MainModel
 {
     protected $table = 'bookings';
+    protected $casts = ['schedule_data' => 'object'];
 
     public function provider(){
         return $this->belongsTo('App\Models\Provider');

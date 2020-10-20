@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class UsersController extends AdminController {
 
+    public function __construct()
+    {
+        $this->middleware('is_admin');
+    }
+
     public function index() {
         $data = array(
             'title' => 'Users',

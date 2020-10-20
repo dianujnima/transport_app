@@ -25,11 +25,11 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.60/vfs_fonts.js" integrity="sha256-UsYCHdwExTu9cZB+QgcOkNzUCTweXr5cNfRlAAtIlPY=" crossorigin="anonymous"></script>
 
 <script>
-    var dtable = $("table.table").DataTable({
+    var dtable = $("table.table:not('.no-datatable')").DataTable({
         scrollX: !0,
         lengthMenu: [
-            [25, 50, 100, 250, -1],
-            [25, 50, 100, 250, "All"]
+            [30, 50, 100, 250, -1],
+            [30, 50, 100, 250, "All"]
         ],
         buttons: [
                {extend: 'copy',

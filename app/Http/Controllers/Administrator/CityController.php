@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Validator;
 
 class CityController extends AdminController {
 
+    public function __construct()
+    {
+        $this->middleware('is_admin');
+    }
+
     public function index() {
         $data = array(
             'title' => 'All Cities',

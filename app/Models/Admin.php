@@ -49,10 +49,14 @@ class Admin extends Authenticatable
 
     public function scopeNotifiables($query)
     {
-        return $query->whereIsActive(1)->get();
+        return $query->whereIsActive(1)->where('user_type', 'admin')->get();
     }
 
     public function provider(){
         return $this->hasOne('App\Models\Provider', 'user_id');
+    }
+
+    public function getProviderIdAttribute(){
+        return $this->provider()->first()->id;
     }
 }

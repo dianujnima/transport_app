@@ -13,15 +13,15 @@ use Illuminate\Support\Facades\Validator;
 
 class ScheduleController extends AdminController {
 
-    public function __construct()
-    {
-        // $this->middleware('is_admin',  ['except' => ['update_profile', 'save_profile', 'change_password']]);
-    }
-
     public function index() {
+        $user = auth('admin')->user();
+        $schedules = ProviderSchedule::with(['provider', 'category', 'seats'])->has('provider');
+        if(!$user->is_admin){
+            $schedules->whereProviderId($user->provider_id);
+        }
         $data = array(
             'title' => 'All Provider Schedules',
-            'schedules' => ProviderSchedule::with(['provider', 'category', 'seats'])->has('provider')->orderBy('updated_at', 'desc')->get()
+            'schedules' => $schedules->orderBy('updated_at', 'desc')->get()
         );
         return view('admin.schedules.all_schedules')->with($data);
     }
@@ -54,7 +54,6 @@ class ScheduleController extends AdminController {
 
     public function save(Request $request) {
         $rules = [
-            'provider' => ['required', 'integer'],
             'vehicle_type' => ['required', 'string', 'max:80', 'in:luxury,super_luxury,standard'],
             'category' => ['required', 'integer'],
             'seats' => ['required', 'array'],

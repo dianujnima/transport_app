@@ -55,9 +55,8 @@ class AuthController extends ApiController
             $data = array('token' => auth('api')->login($user), 'user' => $user);
             $status = 'true';
         }
-
-        if($status === 'true'){
-            UserLogin::create([
+        if($status == true){
+            UserLogin::insert([
                 'user_id' => $data['user']->id,
                 'platform' => $request->header('platform'),
                 'device_token' => $request->header('devicetoken'),

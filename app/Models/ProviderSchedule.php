@@ -19,7 +19,7 @@ class ProviderSchedule extends MainModel
     }
 
     public function seats(){
-        return $this->hasMany('App\Models\ScheduleSeat', 'schedule_id');
+        return $this->hasMany('App\Models\ScheduleSeat', 'schedule_id')->orderBy('cost', 'asc');
     }
 
     public function availableSeats(){

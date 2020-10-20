@@ -16,7 +16,7 @@
 <div class="row">
     <div class="col-12">
         <div class="card-box">
-            @if(newCount($notifications) > 0)
+            @if(safeCount($notifications) > 0)
             <button onclick="ajaxRequest(this)" data-url="{{ route('admin.notifications.delete_all') }}" type="button" class="btn btn-sm btn-danger waves-effect waves-light float-right">
                 <i class="fa fa-trash"></i> Delete All
             </button>
@@ -36,12 +36,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if(newCount($notifications) > 0)
+                        @if(safeCount($notifications) > 0)
                             @foreach ($notifications as $k => $notification)
                                 <tr class="{{ $notification->read_at == null ? 'notification_active_tr' : '' }}">
                                     <th class="title" scope="row">{{$k+1}}</th>
                                     <td>
-                                        <a class="{{ $notification->read_at == null ? 'font-weight-bold' : '' }}" href="{{ route('admin.home') }}/{{$notification->data['link'] ?? ''}}">{{ $notification->data['msg'] ?? 'New Notification' }}</a>
+                                        <a target="_blank" class="{{ $notification->read_at == null ? 'font-weight-bold' : '' }}" href="{{ route('admin.home') }}/{{$notification->data['link'] ?? ''}}">{{ $notification->data['msg'] ?? 'New Notification' }}</a>
                                     </td>
                                     <td class="para">{{ $notification->created_at->diffForHumans() }}</td>
                                     <td>
