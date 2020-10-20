@@ -25,13 +25,11 @@
                 <thead>
                     <tr>
                         <th width="20">S.No</th>
-                        <th>Name</th>
-                        <th>Email</th>
+                        <th>Username</th>
                         <th width="40">Phone Number</th>
                         <th>Type</th>
                         <th>Joining Date</th>
                         <th>Status</th>
-                        <th>Subscription Ends On</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,9 +39,8 @@
                             <p class="m-0 text-center">{{ $k + 1 }}</p>
                         </td>
                         <td>{{ $user->fullname }}</td>
-                        <td><small>{{ $user->email }}</small></td>
+                        <td><small>{{ $user->username }}</small></td>
                         <td><small>{{ $user->phone_no }}</small></td>
-                        <td><small class="badge badge-{{user_type_colors($user->user_role)}}">{{ $user->user_type }}</small></td>
                         <td>
                             <p class="m-0"><small>{{ get_date($user->created_on) }}</small></p>
                         </td>
@@ -55,9 +52,6 @@
                             <p class="m-0">
                                 <input type="checkbox" class="nopopup" onchange="ajaxRequest(this)" data-url="{{ route('admin.users.change_status', $user->hashid) }}" {{ $user->is_active ? 'checked' : ''}} data-toggle="switchery" data-size="small" data-color="#1bb99a" />
                             </p>
-                        </td>
-                        <td>
-                            <p class="m-0"><small>{{ get_date($user->subscription_ends_at) }}</small></p>
                         </td>
                     </tr>
                 
