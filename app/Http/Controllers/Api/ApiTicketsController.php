@@ -15,7 +15,7 @@ class ApiTicketsController extends ApiController
 
     public function search(Request $request)
     {
-        $tickets = ProviderSchedule::with('category', 'seats')->join('schedule_seats', 'schedule_seats.schedule_id', '=', 'provider_schedules.id')->select('provider_schedules.*', 'schedule_seats.cost as starting_at_cost', 'schedule_seats.seat_type')->groupBy('provider_schedules.id')->where('is_active', 1);
+        $tickets = ProviderSchedule::with('category', 'seats')->has('provider')->join('schedule_seats', 'schedule_seats.schedule_id', '=', 'provider_schedules.id')->select('provider_schedules.*', 'schedule_seats.cost as starting_at_cost', 'schedule_seats.seat_type')->groupBy('provider_schedules.id')->where('is_active', 1);
 
         if (!empty($request->from)) {
             $tickets->whereRouteFrom($request->from);

@@ -88,12 +88,12 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="arrival_time">Arrival Time<span class="text-danger">*</span></label>
+                    <label for="arrival_time">Departure Time<span class="text-danger">*</span></label>
                     <input type="text" name="arrival_time" parsley-trigger="change" data-parsley-required placeholder="Enter Vehicle Arrival Time" class="form-control human_timepicker" id="arrival_time">
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="destination_time">Destination Time<span class="text-danger">*</span></label>
+                    <label for="destination_time">Destination/Arrival Time<span class="text-danger">*</span></label>
                     <input type="text" name="destination_time" parsley-trigger="change" data-parsley-required placeholder="Enter Vehicle Destination Time" class="form-control human_timepicker" id="destination_time">
                 </div>
 
