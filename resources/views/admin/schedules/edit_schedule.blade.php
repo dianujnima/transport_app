@@ -32,7 +32,7 @@
                     <select name="provider" parsley-trigger="change" class="form-control" id="provider">
                         <option value="">Select Provider</option>
                         @foreach($providers as $provider)
-                            <option @if($schedule->provider_id === $provider->id) selected @endif  value="{{$schedule->id}}">{{$provider->name}}</option>
+                            <option @if($schedule->provider_id === $provider->id) selected @endif  value="{{$provider->id}}">{{$provider->name}}</option>
                         @endforeach
                     </select>
                 </div>
